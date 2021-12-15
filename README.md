@@ -1,6 +1,6 @@
 ## About The Project
 
-This repository creates one source bucket A, a destination bucket B, and a Lambda function in python 3 that will clean exif metadata from the source bucket image and save in the destination bucket.
+This repository creates one source bucket A, a destination bucket B, and a Lambda function in python 3 that will clean exif metadata from the source bucket image and save in the destination bucket..
 
 ### Prerequisites
 
