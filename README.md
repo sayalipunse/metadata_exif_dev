@@ -6,6 +6,8 @@ This repository creates one source bucket A, a destination bucket B, and a Lambd
 
 Please run below cmd in order to install terraform switch which will be usefull to install, run and switch any terraform version on your local machine. Please note, this cmd is use only on Mac and Linux machine.
 
+Image to be uploaded must be suffixed ".jpg"
+
 * [tfswitch]
 ```sh
 curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
