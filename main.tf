@@ -1,25 +1,19 @@
-module "s3_bucket_a" {
-  source = "terraform-aws-modules/s3-bucket/aws"
+resource "aws_s3_bucket" "source_s3" {
+  bucket = "my-source-s3-bucket"
 
-  bucket        = "my-bucket-s3-a"
-  acl           = "private"
-  force_destroy = true
-
-
-  server_side_encryption_configuration = {
-    rule = {
-      apply_server_side_encryption_by_default = {
-        kms_master_key_id = aws_kms_key.s3_kms_key.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
+  tags = {
+    Name        = "s3_source"
+    Environment = "Dev"
   }
-
-  tags = local.common_tags
 }
 
-resource "aws_s3_bucket_notification" "s3_bucket_a_notification" {
-  bucket = module.s3_bucket_a.s3_bucket_id
+resource "aws_s3_bucket_acl" "s3_source" {
+  bucket = aws_s3_bucket.source_s3.id
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_notification" "s3_source_notification" {
+  bucket = aws_s3_bucket.source_s3.id
 
   lambda_function {
     lambda_function_arn = module.lambda_function.lambda_function_arn
@@ -28,28 +22,21 @@ resource "aws_s3_bucket_notification" "s3_bucket_a_notification" {
   }
 
   depends_on = [
-    module.s3_bucket_a,
+    aws_s3_bucket.source_s3,
     module.lambda_function
   ]
 }
 
-module "s3_bucket_b" {
-  source = "terraform-aws-modules/s3-bucket/aws"
 
-  bucket        = "my-bucket-s3-b"
-  acl           = "private"
-  force_destroy = true
+resource "aws_s3_bucket" "destination_s3" {
+  bucket = "my-destination-s3-bkt"
 
-
-  server_side_encryption_configuration = {
-    rule = {
-      apply_server_side_encryption_by_default = {
-        kms_master_key_id = aws_kms_key.s3_kms_key.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
+  tags = {
+    Name        = "s3_destination"
+    Environment = "Dev"
   }
-
-  tags = local.common_tags
-
+}
+resource "aws_s3_bucket_acl" "s3_destination" {
+  bucket = aws_s3_bucket.destination_s3.id
+  acl    = "private"
 }
