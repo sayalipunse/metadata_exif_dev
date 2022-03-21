@@ -18,7 +18,7 @@ resource "aws_s3_bucket_notification" "s3_source_notification" {
   lambda_function {
     lambda_function_arn = module.lambda_function.lambda_function_arn
     events              = ["s3:ObjectCreated:*"]
-    filter_suffix       = ".jpeg"
+    filter_suffix       = ".jpg"
   }
 
   depends_on = [
